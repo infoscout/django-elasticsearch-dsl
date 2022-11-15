@@ -159,7 +159,7 @@ class Command(BaseCommand):
                     doc().get_queryset().count() if options['count'] else "all",
                     doc.django.model.__name__,
                     "(parallel)" if parallel else "",
-                    max_chunk_id
+                    max_chunk_id - min_chunk_id
                 )
             )
             for chunk_id in range(min_chunk_id, max_chunk_id):
