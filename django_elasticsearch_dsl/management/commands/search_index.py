@@ -101,6 +101,16 @@ class Command(BaseCommand):
             dest='count',
             help='Do not include a total count in the summary log line'
         )
+        parser.add_argument(
+            '--docs_start',
+            action='store',
+            help='Do not include a total count in the summary log line'
+        )
+        parser.add_argument(
+            '--docs_end',
+            action='store',
+            help='Do not include a total count in the summary log line'
+        )
 
     def _get_models(self, args):
         """
@@ -150,10 +160,10 @@ class Command(BaseCommand):
         for doc in registry.get_documents(models):
             min_chunk_id = 0
             if options['docs_start']:
-                min_chunk_id = options['docs_start']
+                min_chunk_id = int(options['docs_start'])
             max_chunk_id = int(ceil(doc().get_max_id() / doc().django.queryset_pagination))
             if options['docs_end']:
-                max_chunk_id = options['docs_end']
+                max_chunk_id = int(options['docs_end'])
             self.stdout.write(
                 "Indexing {} '{}' objects {}, processing in {} chunks".format(
                     doc().get_queryset().count() if options['count'] else "all",
